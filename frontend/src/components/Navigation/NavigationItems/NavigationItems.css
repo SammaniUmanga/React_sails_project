@@ -1,0 +1,19 @@
+.NavigaitionItems {
+    background-color: #2e65e2f7;
+    width: 25%;
+    display: inline-block;
+    height: calc(100vh - 20px);
+    border: 2px solid #133990f7;
+    text-align: center;
+}
+
+.List {
+    margin-left: 10px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    height: 100%;
+}
+

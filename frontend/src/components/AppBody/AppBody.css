@@ -1,0 +1,6 @@
+.AppBody {
+    width: 74%;
+    display: inline-block;
+    height: calc(100vh - 54px);
+    text-align: center;
+}
