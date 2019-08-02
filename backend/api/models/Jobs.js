@@ -14,11 +14,17 @@ module.exports = {
     },
 
     position: {
-      type: 'string'
+      type: 'string',
+      // required: true
     },
 
     expiryDate: {
       type: 'Date'
+    },
+    
+    Company: {
+      type: 'string',
+      required: true
     },
 
     description: {

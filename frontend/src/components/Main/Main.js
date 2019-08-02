@@ -5,11 +5,13 @@ import NavigationItems from '../Navigation/NavigationItems/NavigationItems';
 import Modal from '../UI/Modal/Modal';
 import AppBody from '../AppBody/AppBody';
 import AddJob from '../AddJob/AddJob';
-import axios from 'axios';
+// import axios from 'axios';
 
 class Main extends Component {
 
-   state = { showModal: false };
+   state = { 
+       showModal: false
+   };
 
    onPostJobButtonClickHandler = () => {
       this.setState({ showModal: true });
@@ -21,20 +23,16 @@ class Main extends Component {
 
    onOkButtonClickHandler = () => {
        this.setState({ showModal: false });
+      
        //API call
-       console.log("Category: ", this.state.Category);
-
-    //    axios.post('https://api/Jobs/addjob')
-    //        .then(response => {
-    //            console.log(response.data);
-    //        })
-    //        .catch(error => {
-    //            console.log(error);
-    //        });
-
+        //    axios.post('http://localhost:1337/api/Jobs/addjob', this.state)
+        //    .then(response => {
+        //        console.log(response.data);
+        //    })
+        //    .catch(error => {
+        //        console.log(error);
+        //    });
    }
-
-
 
     render(){
         return (

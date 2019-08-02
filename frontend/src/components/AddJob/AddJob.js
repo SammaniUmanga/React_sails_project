@@ -6,7 +6,16 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
+// import Input from '@material-ui/core/Input';
+import axios from 'axios';
+
+
+
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 
 
 import './AddJob.css';
@@ -44,49 +53,84 @@ const useStyles = makeStyles(theme => ({
 
 class AddJob extends Component {
 
-    constructor(){  
-        super();  
-        this.state = {  
-            Category: ''
-        };  
-    } 
+    constructor(props) {
+        super(props);
+        this.state = {
+            Category: '',
+            Position: '',
+            ExpDate: '',
+            Company: '',
+            Description: '',
+        };
 
-    handleChange (event) {
-          this.setState({Category: event.target.value});
-    } 
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
+    handleChange(event) {
+        // this.setState({value: event.target.value});
+        const target = event.target;
+        const value  = target.value;
+        const name   = target.name;
+
+        this.setState({
+            [name]: value
+          });
+    }
+
+    handleSubmit(event) {
+        console.log('category===>', this.state.Category);
+        console.log('Position===>', this.state.Position);
+        console.log('ExpDate===>', this.state.ExpDate);
+        console.log('ExpDate===>', this.state.Company);
+        console.log('Description===>', this.state.Description);
+        event.preventDefault();
+
+        //API call for add jobs
+        axios.post('http://localhost:1337/api/Jobs/addjob', this.state)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+        
+    }
 
     render() {
         return (
-            <div>
-                <form className="root">
-                    <h1>Add a Job Form</h1>
+        
 
-                    <TextField
-                        id="cat"
-                        label="Category"
-                        className="textField"
-                        name="Category"
-                        // value={this.state.Category}
-                        // onChange={handleChange('name')}
-                        margin="normal"
-                        variant="outlined"
-                    />
-
-                    {/* <div className="Field">
-                         <input type="text" name="Category" id="cat"  value={this.state.Category}  onChange={event => this.handleChange(event)} />      
-                    </div> */}
-
-                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-                    {/* <FormControl className="formControl">   
+     <React.Fragment>
+      <Typography variant="h6" gutterBottom>
+        Post A JOB
+      </Typography>
+      <form onSubmit={this.handleSubmit}>
+      <Grid container spacing={3} >
+        <Grid item xs={12} >
+                        <TextField
+                            required
+                            id="category"
+                            label="JOB Category- IT/HR/Finance"
+                            name="Category"
+                            // className="textField"
+                            value={this.state.Category}
+                            onChange={this.handleChange}
+                            fullWidth
+                            autoComplete="category"
+                        /> 
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <FormControl className="formControl">   
                     <label>Please Select JOB Position</label>
                         <Select
-                        value={values.job}
-                        onChange={handleChange}
-                        inputProps={{
-                          name: 'job',
-                          id: 'job-simple',
-                        }}
+                            name="Position"
+                            value={this.state.Position}
+                            onChange={this.handleChange}
+                            // inputProps={{
+                            //   name: 'job',
+                            //   id: 'job-simple',
+                            // }}
                         >
                             <MenuItem value="SEI">Intern-Software Engineer</MenuItem>
                             <MenuItem value="ASE">Associate Software Engineer</MenuItem>
@@ -95,80 +139,69 @@ class AddJob extends Component {
                             <MenuItem value="TC">Tech Lead</MenuItem>
                             <MenuItem value="AR">Software Architect</MenuItem>
                         </Select>
-                    </FormControl> */}
-                    <label>Select JOB Position</label>
-                    <div className="Field">
-                         <select>
-                             <option value="SEI">Intern-Software Engineer</option>
-                             <option value="ASE">Associate Software Engineer</option>
-                             <option value="SE">Software Engineer</option>
-                             <option value="SSE">Senior Software Engineer</option>
-                             <option value="TC">Tech Lead</option>
-                             <option value="AR">Software Architect</option>
-                         </select>
-                    </div>
-                   <br></br>
-                   
-                   <label>Expiry Date</label> <br></br>
-                    <TextField
-                        id="date"
-                        // label="Date of Birth"
-                        type="date"
-                        defaultValue="2017-05-24"
-                        className={useStyles.textField}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                    <label>Degree: </label> &nbsp; &nbsp;
-                    <Input
-                        placeholder="BEng(hons) Software Engineering"
-                        className="input"
-                        inputProps={{
-                            'aria-label': 'description',
-                        }}
-                    />
-                    <br/><br/>
-  
-                    <label>Description and Requirements</label>&nbsp; &nbsp;
-                    <TextField
-                        id="outlined-description"
-                        label="Description"
-                        className="textField"
-                        // value={values.name}
-                        // onChange={handleChange('name')}
-                        margin="normal"
-                        variant="outlined"
-                    />
-                    <br/><br/>
+        </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <label>JOB Expiry Date</label>
+        <br></br><br></br>
+                        <TextField
+                            required
+                            id="date"
+                            // label="Expiry Date"
+                            type="date"
+                            name="ExpDate"
+                            // defaultValue="2017-05-24"
+                            value={this.state.ExpDate}
+                            onChange={this.handleChange}
+                            className={useStyles.textField}
+                            fullWidth
+                            // autoComplete="date" 
+                            // InputLabelProps={{
+                            //     shrink: false,
+                            // }}
+                        />
+         
+        </Grid>
+        <Grid item xs={12}>
+                           <TextField
+                           required
+                           id="comp"
+                           name="Company"
+                           label="Company"
+                           value={this.state.Company}
+                           onChange={this.handleChange}
+                           fullWidth
+                           // autoComplete="cmpy"
+                           />
+        </Grid>
+        <Grid item xs={12}>
+                           <TextField
+                           id="outlined-description"
+                           label="Description"
+                           className="textField"
+                           name="Description"
+                           value={this.state.Description}
+                           onChange={this.handleChange}
+                           margin="normal"
+                           variant="outlined"
+                           fullWidth
+                           // autoComplete="des"
+                           />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
+            label="All Details are checked"
+          />
+         </Grid>
 
-
-                    {/* <label>Upload Advertisement</label>
-                    <div className="Field">
-                         <input type="file" name="file"/>
-                    </div>
-
-                    <br></br> */}
-
-                    
-
-
-{/*                     
-<RaisedButton
-   containerElement='label' // <-- Just add me!
-   label='My Label'>
-   <input type="file" />
-</RaisedButton> */}
-
-                    <div className="Field">     
-                       <Button variant="contained" color="secondary" className="button" onClick={this.props.cancelClicked}>Cancel</Button> &nbsp; &nbsp;
-                       <Button variant="contained" color="primary" className="button" onClick={this.props.okClicked}>OK</Button>
-                    </div>
-
-                   
-                </form>
-            </div>
+        <div className="Field">     
+                        <Button variant="contained" color="secondary" className="button" onClick={this.props.cancelClicked}>Cancel</Button> &nbsp; &nbsp;
+                        <Button variant="contained" color="primary" className="button" onClick={this.props.okClicked} type="submit" value="Submit"  >OK</Button>
+        </div>
+      </Grid>
+      </form>
+    </React.Fragment>
         );
     }
 }
