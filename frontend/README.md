@@ -1,4 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To run the project run below commands.
+###'npm install'
+
+###'npm start'
+
+**Prerequisites: Node.js(v10.15.1), npm(V6.4.1), react(v16.8.6)
 
 ## Available Scripts
 
